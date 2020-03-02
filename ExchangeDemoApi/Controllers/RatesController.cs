@@ -2,26 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ExchangeDemoApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ExchangeDemoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class RatesController : ControllerBase
     {
-        // GET api/values
+        private readonly IExchangeService exchangeService;
+        public RatesController(IExchangeService exchangeService)
+        {
+            this.exchangeService = exchangeService;
+        }
+        // GET api/rates
         [HttpGet]
         public ActionResult<IEnumerable<string>> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        // GET api/rates/usd
+        [HttpGet("{baseCurrencyCode}")]
+        public async Task <ActionResult<string>> Get(string baseCurrencyCode)
         {
-            return "value";
+            var result = await exchangeService.GetExchangeRate(baseCurrencyCode);
+        
+            return result.ToJson();
         }
 
         // POST api/values

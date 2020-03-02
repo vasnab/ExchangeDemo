@@ -4,3 +4,5 @@
 
 /.vs/ExchangeDemo/v16
 /ExchangeDemoApi/obj
+/.vs/ExchangeDemo/config
+/ExchangeDemoApi/bin/Debug/netcoreapp2.1

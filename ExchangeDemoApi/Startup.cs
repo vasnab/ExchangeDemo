@@ -25,6 +25,7 @@ namespace ExchangeDemoApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddHttpClient<IExchangeService, ExchangeService>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
