@@ -1,2 +1,0 @@
-# ExchangeDemo
-for learning puproses
