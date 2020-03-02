@@ -9,21 +9,23 @@ namespace ExchangeDemoApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RatesController : ControllerBase
+    public class ExchangeController : ControllerBase
     {
         private readonly IExchangeService exchangeService;
-        public RatesController(IExchangeService exchangeService)
+        public ExchangeController(IExchangeService exchangeService)
         {
             this.exchangeService = exchangeService;
         }
-        // GET api/rates
+        // GET api/exchange
         [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        public async Task <ActionResult<string>> Get()
         {
-            return new string[] { "value1", "value2" };
+            var result = await exchangeService.GetLatest();
+
+            return result.ToJson();
         }
 
-        // GET api/rates/usd
+        // GET api/exchange/usd
         [HttpGet("{baseCurrencyCode}")]
         public async Task <ActionResult<string>> Get(string baseCurrencyCode)
         {
@@ -31,6 +33,18 @@ namespace ExchangeDemoApi.Controllers
         
             return result.ToJson();
         }
+
+        // GET api/exchange/usd/eur
+        [HttpGet("{masterCurrencyCode}/{slaveCurrencyCode}")]
+        public async Task<ActionResult<string>> Get(string masterCurrencyCode, string slaveCurrencyCode)
+        {
+            var result = await exchangeService.GetExchangeRateForPair(masterCurrencyCode, slaveCurrencyCode);
+
+            return result.ToJson();
+        }
+
+
+
 
         // POST api/values
         [HttpPost]
